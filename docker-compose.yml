@@ -12,9 +12,9 @@ services:
     depends_on:
       - stats-service-db
     environment:
-      - STAT_URL_DB=jdbc:postgresql://state_server-db:5432/stat_db
-      - STAT_USERNAME_DB=postgres1
-      - STAT_PASSWORD_DB=postgres1
+      - STAT_URL_DB=jdbc:postgresql://state-server-db:5432/stats_db
+      - STAT_USERNAME_DB=postgres
+      - STAT_PASSWORD_DB=postgres
 
 
   stats_service-db:
@@ -24,8 +24,8 @@ services:
       - "6666:5432"
     environment:
       - POSTGRES_DB=stat_db
-      - POSTGRES_USER=postgres1
-      - POSTGRES_PASSWORD=postgres1
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
 
 
   ewm-service:
