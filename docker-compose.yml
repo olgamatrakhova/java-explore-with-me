@@ -12,7 +12,7 @@ services:
     depends_on:
       - stats-service-db
     environment:
-      - STAT_URL_DB=jdbc:postgresql://stats-server-db:5432/stats_db
+      - STAT_URL_DB=jdbc:postgresql://stats-service-db:5432/stats_db
       - STAT_USERNAME_DB=postgres
       - STAT_PASSWORD_DB=postgres
 
@@ -23,7 +23,7 @@ services:
     ports:
       - "6666:5432"
     environment:
-      - POSTGRES_DB=stat_db
+      - POSTGRES_DB=stats_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
@@ -37,19 +37,3 @@ services:
       - "8080:8080"
       - "8081:8081"
 
-    depends_on:
-      - ewm-db
-    environment:
-      - MAIN_DB=jdbc:postgresql://postgres-main-db:5432/ewm_db
-      - MAIN_USER=postgres
-      - MAIN_PASSWORD=postgres
-
-  ewm-db:
-    image: postgres:14-alpine
-    container_name: postgres-main-db
-    ports:
-      - "6464:5432"
-    environment:
-      - POSTGRES_DB=ewm_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
