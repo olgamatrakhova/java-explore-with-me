@@ -1,4 +1,4 @@
 FROM amazoncorretto:11
 LABEL authors="Ola-la"
-COPY target/*.jar stats-server.jar
-ENTRYPOINT ["java","-jar","/stats-server.jar"]
+COPY target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
