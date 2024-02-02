@@ -2,7 +2,6 @@ package ru.practicum.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.StatsDto;
@@ -24,6 +23,7 @@ public class StatsServiceImpl implements StatsService {
     private final StatsServiceRepository statsServiceRepository;
 
     @Override
+    @Transactional
     public StatsDto addStat(StatsDto statsDto) {
         log.info("Вызов addStat");
         Stats stats = statsServiceRepository.save(toStats(statsDto));
@@ -32,6 +32,7 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<StatsResponseDto> getStat(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         log.info("Вызов getStat");
         if (start.isAfter(end)) {
