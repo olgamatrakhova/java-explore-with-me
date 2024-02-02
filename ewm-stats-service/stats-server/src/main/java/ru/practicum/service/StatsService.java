@@ -1,6 +1,5 @@
 package ru.practicum.service;
 
-import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.StatsDto;
 import ru.practicum.dto.StatsResponseDto;
 
