@@ -5,13 +5,13 @@
     <parent>
         <artifactId>explore-with-me</artifactId>
         <groupId>ru.practicum</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ewm-main-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>ewm-main-service</name>
     <description>ewm-main-service</description>
     <packaging>jar</packaging>
