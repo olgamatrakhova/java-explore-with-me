@@ -25,7 +25,7 @@ public class StatsServiceImpl implements StatsService {
     @Override
     @Transactional
     public StatsDto addStat(StatsDto statsDto) {
-        log.info("Вызов addStat");
+        log.info("Вызов addStat ({})", statsDto);
         Stats stats = statsServiceRepository.save(toStats(statsDto));
         log.info("Успех при сохранении addStats {}", stats);
         return toStatsDto(stats);
@@ -34,9 +34,9 @@ public class StatsServiceImpl implements StatsService {
     @Override
     @Transactional(readOnly = true)
     public List<StatsResponseDto> getStat(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
-        log.info("Вызов getStat");
+        log.info("Вызов getStat ({},{},{},{})", start, end, uris, unique);
         if (start.isAfter(end)) {
-            log.error("Ошибка: Дата начала не может быть позже даты окончания");
+            log.error("Ошибка: Дата начала не может быть позже даты окончания (start = {}, end = {})", start, end);
             throw new WrongTimeException("Дата начала не может быть позже даты окончания");
         }
         if (uris.isEmpty()) {

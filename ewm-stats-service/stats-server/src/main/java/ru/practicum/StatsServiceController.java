@@ -27,6 +27,7 @@ public class StatsServiceController {
 
     @PostMapping("/hit")
     public ResponseEntity<StatsDto> addStatsEvent(@RequestBody @Validated StatsDto statsDto) {
+        log.info("Сохранение информации о том, что к эндпоинту был запрос: addStatsEvent({})", statsDto);
         StatsDto statsEvent = statsService.addStat(statsDto);
         log.info("POST request /hit/ endpoint - statDto = {}", statsDto);
         return new ResponseEntity<>(statsEvent, HttpStatus.CREATED);
@@ -37,6 +38,7 @@ public class StatsServiceController {
                                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
                                                                 @RequestParam(defaultValue = "") List<String> uris,
                                                                 @RequestParam(defaultValue = "false") boolean unique) {
+        log.info("Получение статистики по посещениям: getStatsEvent({},{},{},{})", start, end, uris, unique);
         List<StatsResponseDto> stats = statsService.getStat(start, end, uris, unique);
         log.info("GET request /stats/ endpoint - stat size = {}", stats.size());
         return new ResponseEntity<>(stats, HttpStatus.OK);

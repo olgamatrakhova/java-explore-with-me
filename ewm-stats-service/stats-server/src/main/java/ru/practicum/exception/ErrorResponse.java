@@ -30,11 +30,13 @@ public class ErrorResponse {
                 ConstraintViolationException.class, MissingServletRequestParameterException.class,
                 WrongTimeException.class})
         public ResponseEntity<ErrorResponse> badRequest(final Exception e) {
+            log.error("Bad request: Description: {}, Status: {}", e.getMessage(), HttpStatus.BAD_REQUEST.toString());
             return handleException(e, HttpStatus.BAD_REQUEST);
         }
 
         @ExceptionHandler
         public ResponseEntity<ErrorResponse> internalServerError(final Exception e) {
+            log.error("Description: {}, Status: {}", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.toString());
             return handleException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
