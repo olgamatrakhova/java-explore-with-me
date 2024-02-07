@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.users.model.User;
 
 import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.id IN ?1 ")
