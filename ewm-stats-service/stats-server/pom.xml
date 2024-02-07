@@ -10,7 +10,7 @@
     </parent>
     <artifactId>stats-server</artifactId>
     <name>stats-server</name>
-    <version>0.0.1-</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
 
     <dependencies>

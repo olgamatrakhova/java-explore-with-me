@@ -37,7 +37,7 @@ public class StatServiceImpl implements StatsService {
 
     private final ObjectMapper objectMapper;
 
-    @Value("${main_app}")
+    @Value("$ {main_app}")
     private String app;
 
     @Override
