@@ -34,8 +34,7 @@ public class EventPublicServiceImpl implements EventPublicService {
     public List<EventShortDto> getEventsByFilterPublic(String text, List<Long> categories, Boolean paid, LocalDateTime start,
                                                        LocalDateTime end, Boolean onlyAvailable, String sort, Integer from,
                                                        Integer size, HttpServletRequest request) {
-        log.info("Вызов публичного сервиса получения данных по событию с параметрами из фильтра getEventsByFilterPublic({},{},{},{},{},{},{},{},{},{})"
-                , text, categories, paid, start, end, onlyAvailable, sort, from, size, request);
+        log.info("Вызов публичного сервиса получения данных по событию с параметрами из фильтра getEventsByFilterPublic({},{},{},{},{},{},{},{},{},{})", text, categories, paid, start, end, onlyAvailable, sort, from, size, request);
         sort = (sort != null && sort.equals("EVENT_DATE")) ? "eventDate" : "id";
         List<Event> list = eventRepository.getAllEvents(text, categories, paid, start, end,
                 onlyAvailable, sort, createPageRequestDesc(sort, from, size));
