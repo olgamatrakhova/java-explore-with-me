@@ -36,7 +36,7 @@ public class EventAdminController {
     public ResponseEntity<EventFullDto> updateAdminEvent(@PathVariable Long eventId, @RequestBody @Validated EventRequestAdminDto eventRequestAdminDto) {
         log.info("PATCH request to /admin/events/{eventId}");
         return ResponseEntity.ok(eventAdminService.updateEventAdmin(eventId, eventRequestAdminDto));
-   }
+    }
 
     @GetMapping
     public ResponseEntity<List<EventFullDto>> getEventsAdmin(@RequestParam(required = false) List<Long> users,

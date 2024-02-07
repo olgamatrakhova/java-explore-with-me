@@ -29,6 +29,7 @@ public class Location {
     private double lat;
     @Column(name = "lon")
     private double lon;
+
     @Override
     public String toString() {
         return "Location{" +

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.categories.model.Categories;
 
 import java.util.List;
+
 @Repository
 public interface CategoriesRepository extends JpaRepository<Categories, Long> {
     boolean getByName(String name);

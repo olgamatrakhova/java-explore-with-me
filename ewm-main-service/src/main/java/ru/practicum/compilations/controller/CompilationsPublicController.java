@@ -33,8 +33,8 @@ public class CompilationsPublicController {
 
     @GetMapping
     public ResponseEntity<List<CompilationsDto>> getAllCompilations(@RequestParam(required = false) Boolean pinned,
-                                                                 @RequestParam(defaultValue = "0") @PositiveOrZero int from,
-                                                                 @RequestParam(defaultValue = "10") @Positive int size) {
+                                                                    @RequestParam(defaultValue = "0") @PositiveOrZero int from,
+                                                                    @RequestParam(defaultValue = "10") @Positive int size) {
         log.info("GET request to /compilations endpoint");
         List<CompilationsDto> list = service.getAllCompilations(pinned, from, size);
         return ResponseEntity.ok(list);

@@ -7,6 +7,7 @@ import ru.practicum.request.dto.ConfirmedRequestShortDto;
 import ru.practicum.request.model.Request;
 
 import java.util.List;
+
 @Repository
 public interface RequestRepository extends JpaRepository<Request, Long> {
     @Query("SELECT new ru.practicum.request.dto.ConfirmedRequestShortDto(r.event.id , count(r.id)) " +
