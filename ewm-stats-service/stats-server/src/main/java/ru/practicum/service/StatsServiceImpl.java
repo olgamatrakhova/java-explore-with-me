@@ -42,18 +42,18 @@ public class StatsServiceImpl implements StatsService {
         if (uris.isEmpty()) {
             if (unique) {
                 log.info("Успех при получении getStat - unique = true, uris empty");
-                return statsServiceRepository.getAllByTimestampBetweenStartAndEndWithUniqueIp(start, end);
+                return statsServiceRepository.findAllByTimestampBetweenStartAndEndWithUniqueIp(start, end);
             } else {
                 log.info("Успех при получении getStat - unique = false, uris empty");
-                return statsServiceRepository.getAllByTimestampBetweenStartAndEndWhereIpNotUnique(start, end);
+                return statsServiceRepository.findAllByTimestampBetweenStartAndEndWhereIpNotUnique(start, end);
             }
         } else {
             if (unique) {
                 log.info("Успех при получении getStat - unique = true, uris not empty");
-                return statsServiceRepository.getAllByTimestampBetweenStartAndEndWithUrisUniqueIp(start, end, uris);
+                return statsServiceRepository.findAllByTimestampBetweenStartAndEndWithUrisUniqueIp(start, end, uris);
             } else {
                 log.info("Успех при получении getStat - unique = false, uris not empty");
-                return statsServiceRepository.getAllByTimestampBetweenStartAndEndWithUrisIpNotUnique(start, end, uris);
+                return statsServiceRepository.findAllByTimestampBetweenStartAndEndWithUrisIpNotUnique(start, end, uris);
             }
         }
     }
