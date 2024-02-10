@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -34,6 +35,7 @@ public class Event {
     @Column(name = "id")
     private Long id;
     @Column(name = "annotation")
+    @Lob
     private String annotation;
     @ManyToOne
     @JoinColumn(name = "categories_id")
@@ -41,6 +43,7 @@ public class Event {
     @Column(name = "created_on")
     private LocalDateTime createdOn;
     @Column(name = "description")
+    @Lob
     private String description;
     @Column(name = "event_date")
     private LocalDateTime eventDate;

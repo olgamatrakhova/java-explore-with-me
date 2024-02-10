@@ -52,19 +52,21 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     public EventFullDto addEvent(Long userId, EventRequestDto eventRequestDto) {
         log.info("Создание события addEvent({},{}", userId, eventRequestDto);
         Event event = EventMapper.toEvent(eventRequestDto);
-        event.setCategories(categoriesRepository.findById(event.getCategories().getId()).orElseThrow(()
-               -> {
-            log.error("Категории не существует");
-            return new NotFoundException("Категории не существует");
-        }));
+        if (event.getCategories().getId() != null) {
+            if (categoriesRepository.findById(event.getCategories().getId()) == null) {
+                categoriesRepository.save(event.getCategories());
+            }
+           event.setCategories(categoriesRepository.findById(event.getCategories().getId()).get());
+        }
         event.setEventStatus(EventStatus.PENDING);
         event.setCreatedOn(LocalDateTime.now().withNano(0));
         event.setLocation(locationRepository.save(event.getLocation()));
-        event.setInitiator(userRepository.findById(userId).orElseThrow(()
-                -> {
+        if (!userRepository.existsById(userId)) {
             log.error("Пользователь не существует");
-            return new NotFoundException("Пользователь не существует");
-        }));
+            throw new NotFoundException("Пользователь не существует");
+        } else {
+            event.setInitiator(userRepository.findById(userId).get());
+        }
         log.info("Событие {} создано", event);
         return EventMapper.toEventFullDto(eventRepository.save(event));
     }
