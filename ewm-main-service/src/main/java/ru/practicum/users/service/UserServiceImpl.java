@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
         log.info("Вызов добавление пользователя addUser({})", user);
         if (userRepository.existsByEmail(user.getEmail())) {
             log.error("Пользователь с email = {} уже существует", user.getEmail());
-            new NotUniqueException("Пользователь с email =  " + user.getEmail() + " уже существует");
+            throw new NotUniqueException("Пользователь с email =  " + user.getEmail() + " уже существует");
         }
         UserAdminDto userAdminDto = UserMapper.toAdminUserDto(userRepository.save(user));
         log.info("Успешно создан пользователь {}", userAdminDto);

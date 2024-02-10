@@ -74,8 +74,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         log.info("Вызов списка событий которые создал пользователь getEventByUserId({},{},{})", userId, from, size);
         if (!userRepository.existsById(userId)) {
             log.error("Пользователь не существует");
-            new NotFoundException("Пользователь не существует");
-            return List.of();
+            throw new NotFoundException("Пользователь не существует");
         }
         List<Event> events = eventRepository.getAllEventsByInitiatorId(userId, createPageRequestAsc(from, size));
         if (events.isEmpty()) {
