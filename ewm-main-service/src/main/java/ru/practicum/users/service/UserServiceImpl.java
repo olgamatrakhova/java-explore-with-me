@@ -18,7 +18,7 @@ import static ru.practicum.utils.Utils.createPageRequestAsc;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
         return userAdminDto;
     }
 
-    @Transactional
     @Override
     public void deleteUser(Long userId) {
         log.info("Вызов удаления пользователя deleteUser({})", userId);

@@ -15,20 +15,18 @@ import ru.practicum.exception.NotUniqueException;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 @Slf4j
 public class CategoriesAdminServiceImpl implements CategoriesAdminService {
     private final CategoriesRepository categoriesRepository;
     private final EventRepository eventRepository;
 
     @Override
-    @Transactional
     public CategoriesDto addCategories(CategoriesDto categoriesDto) {
         log.info("Вызов добавления категории addCategories({})", categoriesDto);
         if (categoriesRepository.existsByName(categoriesDto.getName())) {
             log.error("Наименование категории не уникально {}", categoriesDto.getName());
             throw new NotUniqueException("Категории с названием " + categoriesDto.getName() + " уже существуют");
-
         } else {
             Categories categories = categoriesRepository.saveAndFlush(CategoriesMapper.toCategories(categoriesDto));
             log.info("Категория - {} - сохранена", categories.getName());
@@ -37,7 +35,6 @@ public class CategoriesAdminServiceImpl implements CategoriesAdminService {
     }
 
     @Override
-    @Transactional
     public void deleteCategories(Long catId) {
         log.info("Вызов удаления категории deleteCategories({})", catId);
         if (!categoriesRepository.existsById(catId)) {
@@ -58,7 +55,6 @@ public class CategoriesAdminServiceImpl implements CategoriesAdminService {
         }
     }
 
-    @Transactional
     @Override
     public CategoriesDto updateCategories(Long catId, CategoriesDto categoriesDto) {
         log.info("Вызов обновления категории updateCategories({},{})", catId, categoriesDto);

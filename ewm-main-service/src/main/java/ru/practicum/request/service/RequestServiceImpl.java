@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class RequestServiceImpl implements RequestService {
@@ -40,7 +40,6 @@ public class RequestServiceImpl implements RequestService {
         return requests;
     }
 
-    @Transactional
     @Override
     public RequestDto addRequest(Long userId, Long eventId) {
         log.info("Вызов добавление запроса пользователя addRequest({},{})", userId, eventId);
@@ -81,7 +80,6 @@ public class RequestServiceImpl implements RequestService {
         return RequestMapper.toRequestDto(request);
     }
 
-    @Transactional
     @Override
     public RequestDto cancelRequest(Long userId, Long requestId) {
         log.info("Вызов отмены регистрации в событии cancelRequest({},{})", userId, requestId);

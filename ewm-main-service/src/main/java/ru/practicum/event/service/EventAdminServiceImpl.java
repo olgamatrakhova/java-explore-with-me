@@ -26,7 +26,7 @@ import java.util.Map;
 import static ru.practicum.utils.Utils.createPageRequestAsc;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class EventAdminServiceImpl implements EventAdminService {
@@ -35,7 +35,6 @@ public class EventAdminServiceImpl implements EventAdminService {
     private final LocationRepository locationRepository;
     private final StatsService statsService;
 
-    @Transactional
     @Override
     public EventFullDto updateEventAdmin(Long eventId, EventRequestAdminDto eventRequestAdminDto) {
         log.info("Вызов обновления события updateEventAdmin({},{})", eventId, eventRequestAdminDto);

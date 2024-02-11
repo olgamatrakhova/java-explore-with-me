@@ -28,7 +28,7 @@ import static ru.practicum.utils.Utils.FORMATTER;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 @Slf4j
 public class StatServiceImpl implements StatsService {
     private final RequestRepository requestRepository;
@@ -78,7 +78,6 @@ public class StatServiceImpl implements StatsService {
         return view;
     }
 
-    @Transactional
     @Override
     public void addHits(HttpServletRequest request) {
         statsClient.addStatsEvent(StatsDto.builder()

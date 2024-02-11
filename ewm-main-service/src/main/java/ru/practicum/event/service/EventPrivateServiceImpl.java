@@ -37,7 +37,7 @@ import static ru.practicum.utils.Utils.createPageRequestAsc;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 @Slf4j
 public class EventPrivateServiceImpl implements EventPrivateService {
     private final EventRepository eventRepository;
@@ -47,20 +47,21 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     private final LocationRepository locationRepository;
     private final StatsService statsService;
 
-    @Transactional
     @Override
     public EventFullDto addEvent(Long userId, EventRequestDto eventRequestDto) {
         log.info("Создание события addEvent({},{}", userId, eventRequestDto);
         Event event = EventMapper.toEvent(eventRequestDto);
         if (event.getCategories().getId() != null) {
-            if (categoriesRepository.findById(event.getCategories().getId()) == null) {
-                categoriesRepository.save(event.getCategories());
-            }
-           event.setCategories(categoriesRepository.findById(event.getCategories().getId()).get());
+            event.setCategories(categoriesRepository.findById(event.getCategories().getId())
+                    .orElseThrow(() -> new NotFoundException("Категории не существует")));
+        } else {
+            categoriesRepository.saveAndFlush(event.getCategories());
         }
         event.setEventStatus(EventStatus.PENDING);
         event.setCreatedOn(LocalDateTime.now().withNano(0));
-        event.setLocation(locationRepository.save(event.getLocation()));
+        if (event.getLocation() != null) {
+            event.setLocation(locationRepository.save(event.getLocation()));
+        }
         if (!userRepository.existsById(userId)) {
             log.error("Пользователь не существует");
             throw new NotFoundException("Пользователь не существует");
@@ -107,7 +108,6 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         return EventMapper.toEventFullDto(event);
     }
 
-    @Transactional
     @Override
     public EventFullDto updateEvent(Long userId, Long eventId, EventUpdateDto eventUpdateDto) {
         log.info("Вызов обновления события updateEvent({},{},{})", userId, eventId, eventUpdateDto);
@@ -187,7 +187,6 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         return RequestMapper.toListRequestDto(requests);
     }
 
-    @Transactional
     @Override
     public RequestShortUpdateDto updateRequestByOwner(Long userId, Long eventId, RequestShortDto requestShortDto) {
         log.info("Вызов обновления статусов по заявкам пользователя updateRequestByOwner({},{},{})", userId, eventId, requestShortDto);

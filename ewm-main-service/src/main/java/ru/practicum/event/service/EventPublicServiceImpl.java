@@ -23,7 +23,7 @@ import java.util.Map;
 import static ru.practicum.utils.Utils.createPageRequestDesc;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class EventPublicServiceImpl implements EventPublicService {
