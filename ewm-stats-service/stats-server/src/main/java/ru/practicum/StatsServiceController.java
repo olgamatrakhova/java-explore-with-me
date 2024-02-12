@@ -15,6 +15,7 @@ import ru.practicum.dto.StatsDto;
 import ru.practicum.dto.StatsResponseDto;
 import ru.practicum.service.StatsService;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,10 +35,10 @@ public class StatsServiceController {
     }
 
     @GetMapping("/stats")
-    public ResponseEntity<List<StatsResponseDto>> getStatsEvent(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
-                                                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
+    public ResponseEntity<List<StatsResponseDto>> getStatsEvent(@RequestParam String start,
+                                                                @RequestParam String end,
                                                                 @RequestParam(defaultValue = "") List<String> uris,
-                                                                @RequestParam(defaultValue = "false") boolean unique) {
+                                                                @RequestParam(defaultValue = "false") boolean unique) throws UnsupportedEncodingException {
         log.info("Получение статистики по посещениям: getStatsEvent({},{},{},{})", start, end, uris, unique);
         List<StatsResponseDto> stats = statsService.getStat(start, end, uris, unique);
         log.info("GET request /stats/ endpoint - stat size = {}", stats.size());

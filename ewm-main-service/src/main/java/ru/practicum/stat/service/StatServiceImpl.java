@@ -17,6 +17,8 @@ import ru.practicum.request.dto.ConfirmedRequestShortDto;
 import ru.practicum.request.repository.RequestRepository;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,7 +30,7 @@ import static ru.practicum.utils.Utils.FORMATTER;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 @Slf4j
 public class StatServiceImpl implements StatsService {
     private final RequestRepository requestRepository;
@@ -37,7 +39,7 @@ public class StatServiceImpl implements StatsService {
 
     private final ObjectMapper objectMapper;
 
-    @Value("$ {main_app}")
+    @Value("${main_app}")
     private String app;
 
     @Override
@@ -63,8 +65,7 @@ public class StatServiceImpl implements StatsService {
         ResponseEntity<Object> response = statsClient.getStatsEvent(start.format(FORMATTER),
                 LocalDateTime.now().format(FORMATTER), uris, true);
         try {
-            StatsResponseDto[] stats = objectMapper.readValue(
-                    objectMapper.writeValueAsString(response.getBody()), StatsResponseDto[].class);
+            StatsResponseDto[] stats = objectMapper.readValue(objectMapper.writeValueAsString(response.getBody()), StatsResponseDto[].class);
             for (StatsResponseDto stat : stats) {
                 view.put(
                         Long.parseLong(stat.getUri().replaceAll("\\D+", "")),

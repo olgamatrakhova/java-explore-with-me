@@ -1,13 +1,11 @@
 package ru.practicum.event.dto;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import ru.practicum.categories.dto.CategoriesDto;
 import ru.practicum.users.dto.UserShortDto;
 
-@Getter
-@Setter
+@Data
 @Builder
 public class EventShortDto {
     private Long id;
