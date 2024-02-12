@@ -17,8 +17,6 @@ import ru.practicum.request.dto.ConfirmedRequestShortDto;
 import ru.practicum.request.repository.RequestRepository;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashMap;
