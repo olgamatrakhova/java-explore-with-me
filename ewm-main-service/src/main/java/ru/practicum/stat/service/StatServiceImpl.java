@@ -66,7 +66,7 @@ public class StatServiceImpl implements StatsService {
             StatsResponseDto[] stats = objectMapper.readValue(objectMapper.writeValueAsString(response.getBody()), StatsResponseDto[].class);
             for (StatsResponseDto stat : stats) {
                 view.put(
-                        Long.parseLong(stat.getUri().replaceAll("\\D+", "")),
+                        Long.parseLong(stat.getUri()),
                         stat.getHits());
             }
         } catch (JsonProcessingException e) {
