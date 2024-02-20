@@ -44,9 +44,9 @@ public class RequestServiceImpl implements RequestService {
     public RequestDto addRequest(Long userId, Long eventId) {
         log.info("Вызов добавление запроса пользователя addRequest({},{})", userId, eventId);
         RequestStatus requestStatus;
-        Event event = eventRepository.getAllEventsByIdAndInitiatorId(eventId, userId).orElseThrow(() -> {
+        Event event = eventRepository.findAllEventsByIdAndInitiatorId(eventId, userId).orElseThrow(() -> {
             log.error("Событие c id = {} не найдено", eventId);
-            return new NotFoundException("Событие c id =" + eventId + " не найдено");
+            throw new NotFoundException("Событие c id =" + eventId + " не найдено");
         });
         if (event.getInitiator().getId().equals(userId)) {
             log.error("Создатель мероприятия не может подавать запрос на мероприятие");

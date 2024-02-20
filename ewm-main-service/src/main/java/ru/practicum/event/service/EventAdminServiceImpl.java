@@ -106,7 +106,7 @@ public class EventAdminServiceImpl implements EventAdminService {
                                              int from, int size) {
         log.info("Вызов получения события getEventsAdmin({},{},{},{},{},{},{})", users, eventStatusList, categories,
                 start, end, from, size);
-        List<Event> events = eventRepository.getAllEventsByParam(users, eventStatusList, categories, start, end, createPageRequestAsc(from, size));
+        List<Event> events = eventRepository.findAllEventsByParam(users, eventStatusList, categories, start, end, createPageRequestAsc(from, size));
         Map<Long, Long> confirmedRequest = statsService.toConfirmedRequest(events);
         Map<Long, Long> view = statsService.toView(events);
         for (Event event : events) {

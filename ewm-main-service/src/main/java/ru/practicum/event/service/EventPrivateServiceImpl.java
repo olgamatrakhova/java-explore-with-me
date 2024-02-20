@@ -69,7 +69,11 @@ public class EventPrivateServiceImpl implements EventPrivateService {
             event.setInitiator(userRepository.findById(userId).get());
         }
         log.info("Событие {} создано", event);
-        return EventMapper.toEventFullDto(eventRepository.save(event));
+        try {
+            return EventMapper.toEventFullDto(eventRepository.save(event));
+        } catch (Exception e) {
+            throw new BadRequestException("Невозможно добавить событие");
+        }
     }
 
     @Override
@@ -79,7 +83,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
             log.error("Пользователь не существует");
             throw new NotFoundException("Пользователь не существует");
         }
-        List<Event> events = eventRepository.getAllEventsByInitiatorId(userId, createPageRequestAsc(from, size));
+        List<Event> events = eventRepository.findAllEventsByInitiatorId(userId, createPageRequestAsc(from, size));
         if (events.isEmpty()) {
             return List.of();
         }
@@ -96,7 +100,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     @Override
     public EventFullDto getEventByUserIdAndEventId(Long userId, Long eventId) {
         log.info("Вызов поиска события по ид по пользователю getEventByUserIdAndEventId({},{})", userId, eventId);
-        Event event = eventRepository.getAllEventsByIdAndInitiatorId(eventId, userId).orElseThrow(() -> {
+        Event event = eventRepository.findAllEventsByIdAndInitiatorId(eventId, userId).orElseThrow(() -> {
             log.error("Событие не существует");
             return new NotFoundException("Событие не существует");
         });
@@ -112,7 +116,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     public EventFullDto updateEvent(Long userId, Long eventId, EventUpdateDto eventUpdateDto) {
         log.info("Вызов обновления события updateEvent({},{},{})", userId, eventId, eventUpdateDto);
         EventPatchDto eventPatchDto = EventMapper.toEventFromUpdateEvent(eventUpdateDto);
-        Event event = eventRepository.getAllEventsByIdAndInitiatorId(eventId, userId).orElseThrow(() -> {
+        Event event = eventRepository.findAllEventsByIdAndInitiatorId(eventId, userId).orElseThrow(() -> {
             log.error("Событие не существует");
             return new NotFoundException("Событие не существует");
         });

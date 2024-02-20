@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
-    List<Event> getAllEventsByInitiatorId(long userId, Pageable pageable);
+    List<Event> findAllEventsByInitiatorId(long userId, Pageable pageable);
 
-    Optional<Event> getAllEventsByIdAndInitiatorId(long eventId, long userId);
+    Optional<Event> findAllEventsByIdAndInitiatorId(long eventId, long userId);
 
     @Query("SELECT e " +
             "FROM Event e " +
@@ -22,7 +22,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "AND (e.categories.id IN ?3 OR ?3 IS null) " +
             "AND (e.eventDate > ?4 OR ?4 IS null) " +
             "AND (e.eventDate < ?5 OR ?5 IS null) ")
-    List<Event> getAllEventsByParam(List<Long> users, List<EventStatus> states, List<Long> categories,
+    List<Event> findAllEventsByParam(List<Long> users, List<EventStatus> states, List<Long> categories,
                                     LocalDateTime start, LocalDateTime end, Pageable pageable);
 
     boolean existsByIdAndInitiatorId(long eventId, long userId);
