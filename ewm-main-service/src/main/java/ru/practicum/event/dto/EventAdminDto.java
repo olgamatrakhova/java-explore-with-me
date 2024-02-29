@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class EventAdminDto {
     private String annotation;
-    private Long categories;
+    private Long category;
     private String description;
     private LocalDateTime eventDate;
     private Location location;

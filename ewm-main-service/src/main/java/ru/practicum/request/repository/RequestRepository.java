@@ -13,7 +13,7 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     @Query("SELECT new ru.practicum.request.dto.ConfirmedRequestShortDto(r.event.id , count(r.id)) " +
             "FROM Request r " +
             "WHERE r.event.id in ?1 " +
-            "AND r.requestStatus = 'CONFIRMED' " +
+            "AND r.status = 'CONFIRMED' " +
             "GROUP BY r.event.id ")
     List<ConfirmedRequestShortDto> countByEventId(List<Long> longs);
 

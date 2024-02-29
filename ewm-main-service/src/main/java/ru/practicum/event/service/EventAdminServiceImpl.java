@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.categories.repository.CategoriesRepository;
+import ru.practicum.category.repository.CategoryRepository;
 import ru.practicum.event.dto.EventAdminDto;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventRequestAdminDto;
@@ -31,7 +31,7 @@ import static ru.practicum.utils.Utils.createPageRequestAsc;
 @Slf4j
 public class EventAdminServiceImpl implements EventAdminService {
     private final EventRepository eventRepository;
-    private final CategoriesRepository categoriesRepository;
+    private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
     private final StatsService statsService;
 
@@ -54,16 +54,16 @@ public class EventAdminServiceImpl implements EventAdminService {
             }
         }
         if (eventAdminDto.getStateAction() != null) {
-            if (!event.getEventStatus().equals(EventStatus.PENDING)) {
+            if (!event.getState().equals(EventStatus.PENDING)) {
                 log.error("Нельзя изменить событие, его статус не в ожидании - статус {} ", eventAdminDto.getStateAction());
                 throw new ConflictException("Нельзя изменить событие, его статус не в ожидании");
             }
             if (eventAdminDto.getStateAction().equals(EventStatusAdmin.PUBLISH_EVENT)) {
-                event.setEventStatus(EventStatus.PUBLISHED);
+                event.setState(EventStatus.PUBLISHED);
                 event.setPublishedOn(LocalDateTime.now().withNano(0));
             }
             if (eventAdminDto.getStateAction().equals(EventStatusAdmin.REJECT_EVENT)) {
-                event.setEventStatus(EventStatus.CANCELED);
+                event.setState(EventStatus.CANCELED);
             }
         }
         if (eventAdminDto.getRequestModeration() != null) {
@@ -88,8 +88,8 @@ public class EventAdminServiceImpl implements EventAdminService {
         if (eventAdminDto.getTitle() != null && !eventAdminDto.getTitle().isBlank()) {
             event.setTitle(eventAdminDto.getTitle());
         }
-        if (eventAdminDto.getCategories() != null) {
-            event.setCategories(categoriesRepository.findById(eventAdminDto.getCategories())
+        if (eventAdminDto.getCategory() != null) {
+            event.setCategory(categoryRepository.findById(eventAdminDto.getCategory())
                     .orElseThrow(() -> new NotFoundException("Категория не найдена")));
         }
         Map<Long, Long> confirmedRequest = statsService.toConfirmedRequest(List.of(event));
@@ -102,11 +102,11 @@ public class EventAdminServiceImpl implements EventAdminService {
 
     @Override
     public List<EventFullDto> getEventsAdmin(List<Long> users, List<EventStatus> eventStatusList,
-                                             List<Long> categories, LocalDateTime start, LocalDateTime end,
+                                             List<Long> category, LocalDateTime start, LocalDateTime end,
                                              int from, int size) {
-        log.info("Вызов получения события getEventsAdmin({},{},{},{},{},{},{})", users, eventStatusList, categories,
+        log.info("Вызов получения события getEventsAdmin({},{},{},{},{},{},{})", users, eventStatusList, category,
                 start, end, from, size);
-        List<Event> events = eventRepository.findAllEventsByParam(users, eventStatusList, categories, start, end, createPageRequestAsc(from, size));
+        List<Event> events = eventRepository.findAllEventsByParam(users, eventStatusList, category, start, end, createPageRequestAsc(from, size));
         Map<Long, Long> confirmedRequest = statsService.toConfirmedRequest(events);
         Map<Long, Long> view = statsService.toView(events);
         for (Event event : events) {

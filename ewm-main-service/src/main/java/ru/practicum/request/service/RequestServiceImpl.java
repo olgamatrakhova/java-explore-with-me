@@ -52,9 +52,9 @@ public class RequestServiceImpl implements RequestService {
             log.error("Создатель мероприятия не может подавать запрос на мероприятие");
             throw new ConflictException("Создатель мероприятия не может подавать запрос на мероприятие");
         }
-        if (!event.getEventStatus().equals(EventStatus.PUBLISHED)) {
-            log.error("Статус события {} - он должен быть PUBLISHED", event.getEventStatus());
-            throw new ConflictException("Статус события " + event.getEventStatus() + " - он должен быть PUBLISHED");
+        if (!event.getState().equals(EventStatus.PUBLISHED)) {
+            log.error("Статус события {} - он должен быть PUBLISHED", event.getState());
+            throw new ConflictException("Статус события " + event.getState() + " - он должен быть PUBLISHED");
         }
         if (requestRepository.existsByRequesterIdAndEventId(userId, eventId)) {
             log.error("Пользователь уже подавал заявку");
@@ -74,7 +74,7 @@ public class RequestServiceImpl implements RequestService {
                 .requester(user)
                 .event(event)
                 .created(LocalDateTime.now().withNano(0))
-                .requestStatus(requestStatus)
+                .status(requestStatus)
                 .build());
         log.info("Заявка на событие {} создана", request);
         return RequestMapper.toRequestDto(request);
@@ -91,8 +91,8 @@ public class RequestServiceImpl implements RequestService {
             log.error("Заявки с id = {} не существует", requestId);
             return new NotFoundException("Заявки с id = " + requestId + " не существует");
         });
-        request.setRequestStatus(RequestStatus.CANCELED);
-        log.info("Заявка с id = {}, отменена, status = {}", requestId, request.getRequestStatus());
+        request.setStatus(RequestStatus.CANCELED);
+        log.info("Заявка с id = {}, отменена, status = {}", requestId, request.getStatus());
         return RequestMapper.toRequestDto(request);
     }
 }

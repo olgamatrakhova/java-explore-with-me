@@ -32,7 +32,7 @@ public class EventPublicController {
 
     @GetMapping
     public ResponseEntity<List<EventShortDto>> getEventsByFilterPublic(@RequestParam(required = false) String text,
-                                                                       @RequestParam(required = false) List<@Positive Long> categories,
+                                                                       @RequestParam(required = false) List<@Positive Long> category,
                                                                        @RequestParam(required = false) Boolean paid,
                                                                        @RequestParam(required = false)
                                                                        @DateTimeFormat(pattern = TIME_STRING) LocalDateTime start,
@@ -44,7 +44,7 @@ public class EventPublicController {
                                                                        @RequestParam(defaultValue = "10") @Positive int size,
                                                                        HttpServletRequest request) {
         log.info("PATCH request to users/{userId}/events/{eventId}/requests");
-        return ResponseEntity.ok(service.getEventsByFilterPublic(text, categories, paid,
+        return ResponseEntity.ok(service.getEventsByFilterPublic(text, category, paid,
                 start, end, onlyAvailable, sort, from, size, request));
     }
 

@@ -2,7 +2,7 @@ package ru.practicum.event.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import ru.practicum.categories.dto.CategoriesDto;
+import ru.practicum.category.dto.CategoryDto;
 import ru.practicum.users.dto.UserShortDto;
 
 @Data
@@ -10,7 +10,7 @@ import ru.practicum.users.dto.UserShortDto;
 public class EventShortDto {
     private Long id;
     private String annotation;
-    private CategoriesDto categories;
+    private CategoryDto category;
     private Long confirmedRequests;
     private String eventDate;
     private UserShortDto initiator;

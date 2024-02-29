@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.categories.repository.CategoriesRepository;
+import ru.practicum.category.repository.CategoryRepository;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventPatchDto;
 import ru.practicum.event.dto.EventRequestDto;
@@ -41,7 +41,7 @@ import static ru.practicum.utils.Utils.createPageRequestAsc;
 @Slf4j
 public class EventPrivateServiceImpl implements EventPrivateService {
     private final EventRepository eventRepository;
-    private final CategoriesRepository categoriesRepository;
+    private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final RequestRepository requestRepository;
     private final LocationRepository locationRepository;
@@ -51,13 +51,13 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     public EventFullDto addEvent(Long userId, EventRequestDto eventRequestDto) {
         log.info("Создание события addEvent({},{}", userId, eventRequestDto);
         Event event = EventMapper.toEvent(eventRequestDto);
-        if (event.getCategories().getId() != null) {
-            event.setCategories(categoriesRepository.findById(event.getCategories().getId())
+        if (event.getCategory().getId() != null) {
+            event.setCategory(categoryRepository.findById(event.getCategory().getId())
                     .orElseThrow(() -> new NotFoundException("Категории не существует")));
         } else {
-            categoriesRepository.saveAndFlush(event.getCategories());
+            categoryRepository.saveAndFlush(event.getCategory());
         }
-        event.setEventStatus(EventStatus.PENDING);
+        event.setState(EventStatus.PENDING);
         event.setCreatedOn(LocalDateTime.now().withNano(0));
         if (event.getLocation() != null) {
             event.setLocation(locationRepository.save(event.getLocation()));
@@ -124,7 +124,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
             log.error("Пользователь не является владельцем события и не может его изменять");
             throw new ConflictException("Пользователь не является владельцем события и не может его изменять");
         }
-        if (event.getEventStatus().equals(EventStatus.PUBLISHED)) {
+        if (event.getState().equals(EventStatus.PUBLISHED)) {
             log.error("Нельзя отредактировать событие со статусом EventStatus.PUBLISHED");
             throw new ConflictException("Нельзя отредактировать событие со статусом Опубликовано");
         }
@@ -139,10 +139,10 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         EventStatusUser eventStatusUser = eventPatchDto.getStateAction();
         if (eventStatusUser != null) {
             if (eventStatusUser.equals(EventStatusUser.SEND_TO_REVIEW)) {
-                event.setEventStatus(EventStatus.PENDING);
+                event.setState(EventStatus.PENDING);
             }
             if (eventStatusUser.equals(EventStatusUser.CANCEL_REVIEW)) {
-                event.setEventStatus(EventStatus.CANCELED);
+                event.setState(EventStatus.CANCELED);
             }
         }
         if (eventPatchDto.getPaid() != null) {
@@ -164,8 +164,8 @@ public class EventPrivateServiceImpl implements EventPrivateService {
             event.setLocation(locationRepository.findByLatAndLon(eventPatchDto.getLocation().getLat(), eventPatchDto.getLocation().getLon())
                     .orElse(locationRepository.save(eventPatchDto.getLocation())));
         }
-        if (eventPatchDto.getCategories() != null) {
-            event.setCategories(categoriesRepository.findById(eventPatchDto.getCategories())
+        if (eventPatchDto.getCategory() != null) {
+            event.setCategory(categoryRepository.findById(eventPatchDto.getCategory())
                     .orElseThrow(() -> {
                         log.error("Категории не существует");
                         return new NotFoundException("Категории не существует");
@@ -218,12 +218,12 @@ public class EventPrivateServiceImpl implements EventPrivateService {
                 log.error("Заявки с id = {} не существует", requestId);
                 return new NotFoundException("Заявки нет");
             });
-            if (requestShort.getRequestStatus().equals(RequestStatus.CONFIRMED)) {
-                request.setRequestStatus(RequestStatus.CONFIRMED);
+            if (requestShort.getStatus().equals(RequestStatus.CONFIRMED)) {
+                request.setStatus(RequestStatus.CONFIRMED);
                 requestUpdateDto.getConfirmedRequest().add(request);
             }
-            if (requestShort.getRequestStatus().equals(RequestStatus.REJECTED)) {
-                request.setRequestStatus(RequestStatus.REJECTED);
+            if (requestShort.getStatus().equals(RequestStatus.REJECTED)) {
+                request.setStatus(RequestStatus.REJECTED);
                 requestUpdateDto.getCanselRequest().add(request);
             }
         });

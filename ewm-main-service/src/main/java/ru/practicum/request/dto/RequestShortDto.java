@@ -10,5 +10,5 @@ import java.util.List;
 @Builder
 public class RequestShortDto {
     private List<Long> requestIds;
-    private RequestStatus requestStatus;
+    private RequestStatus status;
 }

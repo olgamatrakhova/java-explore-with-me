@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventPublicService {
-    List<EventShortDto> getEventsByFilterPublic(String text, List<Long> categories, Boolean paid, LocalDateTime start,
+    List<EventShortDto> getEventsByFilterPublic(String text, List<Long> category, Boolean paid, LocalDateTime start,
                                                 LocalDateTime end, Boolean onlyAvailable, String sort, Integer from, Integer size, HttpServletRequest request);
 
     EventFullDto getEventByIdPublic(Long id, HttpServletRequest request);

@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.8'
 services:
   stats-server:
     build: ewm-stats-service/stats-server
@@ -13,7 +13,7 @@ services:
       - STAT_PASSWORD_DB=root
 
   stats-db:
-    image: postgres:14-alpine
+    image: postgres:15-alpine
     container_name: stats-db
     ports:
       - "5432:5432"
@@ -36,7 +36,7 @@ services:
       - MAIN_PASSWORD=root
 
   ewm-db:
-    image: postgres:14-alpine
+    image: postgres:15-alpine
     container_name: ewm-db
     ports:
       - "5433:5433"

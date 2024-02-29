@@ -1,8 +1,8 @@
 package ru.practicum.event.mapper;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.categories.mapper.CategoriesMapper;
-import ru.practicum.categories.model.Categories;
+import ru.practicum.category.mapper.CategoryMapper;
+import ru.practicum.category.model.Category;
 import ru.practicum.event.dto.EventAdminDto;
 import ru.practicum.event.dto.EventDto;
 import ru.practicum.event.dto.EventFullDto;
@@ -24,9 +24,10 @@ import static ru.practicum.utils.Utils.FORMATTER;
 public class EventMapper {
     public Event toEvent(EventRequestDto receivedDto) {
         return Event.builder()
+                .id((receivedDto.getId()))
                 .eventDate(receivedDto.getEventDate())
                 .annotation(receivedDto.getAnnotation())
-                .categories(Categories.builder().id(receivedDto.getCategories()).build())
+                .category(Category.builder().id(receivedDto.getCategory()).build())
                 .paid(receivedDto.isPaid())
                 .description(receivedDto.getDescription())
                 .title(receivedDto.getTitle())
@@ -42,14 +43,14 @@ public class EventMapper {
                 .initiator(UserMapper.toUserDto(event.getInitiator()))
                 .confirmedRequests(event.getConfirmedRequests())
                 .views(event.getView())
-                .eventStatus(event.getEventStatus())
+                .state(event.getState())
                 .annotation(event.getAnnotation())
                 .participantLimit(event.getParticipantLimit())
                 .requestModeration(event.getRequestModeration())
                 .paid(event.getPaid())
                 .title(event.getTitle())
                 .id(event.getId())
-                .categories(CategoriesMapper.toCategoriesDto(event.getCategories()))
+                .category(CategoryMapper.toCategoryDto(event.getCategory()))
                 .description(event.getDescription())
                 .eventDate(event.getEventDate().format(FORMATTER))
                 .location(LocationMapper.toLocationDto(event.getLocation()))
@@ -71,7 +72,7 @@ public class EventMapper {
                 .annotation(eventUpdateDto.getAnnotation())
                 .participantLimit(eventUpdateDto.getParticipantLimit())
                 .requestModeration(eventUpdateDto.getRequestModeration())
-                .categories(eventUpdateDto.getCategories())
+                .category(eventUpdateDto.getCategory())
                 .description(eventUpdateDto.getDescription())
                 .title(eventUpdateDto.getTitle())
                 .paid(eventUpdateDto.getPaid())
@@ -87,7 +88,7 @@ public class EventMapper {
                 .annotation(eventAdmin.getAnnotation())
                 .participantLimit(eventAdmin.getParticipantLimit())
                 .requestModeration(eventAdmin.getRequestModeration())
-                .categories(eventAdmin.getCategories())
+                .category(eventAdmin.getCategory())
                 .description(eventAdmin.getDescription())
                 .eventDate(eventAdmin.getEventDate())
                 .paid(eventAdmin.getPaid())
@@ -104,7 +105,7 @@ public class EventMapper {
                 .confirmedRequests(confirmedRequests)
                 .views(view)
                 .annotation(event.getAnnotation())
-                .categories(event.getCategories())
+                .category(event.getCategory())
                 .initiator(event.getInitiator())
                 .paid(event.getPaid())
                 .title(event.getTitle())
@@ -118,7 +119,7 @@ public class EventMapper {
                 .eventDate(eventDto.getEventDate().format(FORMATTER))
                 .annotation(eventDto.getAnnotation())
                 .title(eventDto.getTitle())
-                .categories(CategoriesMapper.toCategoriesDto(eventDto.getCategories()))
+                .category(CategoryMapper.toCategoryDto(eventDto.getCategory()))
                 .confirmedRequests(eventDto.getConfirmedRequests())
                 .id(eventDto.getId())
                 .paid(eventDto.getPaid())
@@ -136,7 +137,7 @@ public class EventMapper {
                 .confirmedRequests(event.getConfirmedRequests())
                 .views(event.getView())
                 .annotation(event.getAnnotation())
-                .categories(event.getCategories())
+                .category(event.getCategory())
                 .initiator(event.getInitiator())
                 .paid(event.getPaid())
                 .title(event.getTitle())
@@ -150,7 +151,7 @@ public class EventMapper {
     public static EventShortDto toEventShortDto(Event event) {
         return EventShortDto.builder()
                 .annotation(event.getAnnotation())
-                .categories(CategoriesMapper.toCategoriesDto(event.getCategories()))
+                .category(CategoryMapper.toCategoryDto(event.getCategory()))
                 .confirmedRequests(event.getConfirmedRequests())
                 .eventDate(event.getEventDate().toString())
                 .id(event.getId())

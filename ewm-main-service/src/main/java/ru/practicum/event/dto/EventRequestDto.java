@@ -22,13 +22,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Valid
 public class EventRequestDto {
+    private Long id;
     @Size(min = 20, max = 2000)
     @NotBlank
     @NotNull
     @NotEmpty
     private String annotation;
     @NotNull
-    private Long categories;
+    private Long category;
     @Size(min = 20, max = 7000)
     @NotBlank
     @NotNull

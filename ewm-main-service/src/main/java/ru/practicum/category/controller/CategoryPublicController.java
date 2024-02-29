@@ -1,4 +1,4 @@
-package ru.practicum.categories.controller;
+package ru.practicum.category.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.categories.dto.CategoriesDto;
-import ru.practicum.categories.service.CategoriesPublicService;
+import ru.practicum.category.dto.CategoryDto;
+import ru.practicum.category.service.CategoryPublicService;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -21,19 +21,19 @@ import java.util.List;
 @Validated
 @RequestMapping(path = "/categories")
 @Slf4j
-public class CategoriesPublicController {
-    private final CategoriesPublicService categoriesPublicService;
+public class CategoryPublicController {
+    private final CategoryPublicService categoryPublicService;
 
     @GetMapping
-    public ResponseEntity<List<CategoriesDto>> getAllCategories(@RequestParam(defaultValue = "0") @PositiveOrZero int from,
-                                                                @RequestParam(defaultValue = "10") @Positive int size) {
+    public ResponseEntity<List<CategoryDto>> getAllCategory(@RequestParam(defaultValue = "0") @PositiveOrZero int from,
+                                                              @RequestParam(defaultValue = "10") @Positive int size) {
         log.info("GET request to - /categories - endpoint");
-        return ResponseEntity.ok(categoriesPublicService.getAllCategories(from, size));
+        return ResponseEntity.ok(categoryPublicService.getAllCategory(from, size));
     }
 
     @GetMapping("/{catId}")
-    public ResponseEntity<CategoriesDto> getCategoriesById(@PathVariable Long catId) {
+    public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Long catId) {
         log.info("GET request to - /categories/{catId} - endpoint");
-        return ResponseEntity.ok(categoriesPublicService.getCategoriesById(catId));
+        return ResponseEntity.ok(categoryPublicService.getCategoryById(catId));
     }
 }

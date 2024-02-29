@@ -31,12 +31,12 @@ public class EventPublicServiceImpl implements EventPublicService {
     private final StatsService statsService;
 
     @Override
-    public List<EventShortDto> getEventsByFilterPublic(String text, List<Long> categories, Boolean paid, LocalDateTime start,
+    public List<EventShortDto> getEventsByFilterPublic(String text, List<Long> category, Boolean paid, LocalDateTime start,
                                                        LocalDateTime end, Boolean onlyAvailable, String sort, Integer from,
                                                        Integer size, HttpServletRequest request) {
-        log.info("Вызов публичного сервиса получения данных по событию с параметрами из фильтра getEventsByFilterPublic({},{},{},{},{},{},{},{},{},{})", text, categories, paid, start, end, onlyAvailable, sort, from, size, request);
+        log.info("Вызов публичного сервиса получения данных по событию с параметрами из фильтра getEventsByFilterPublic({},{},{},{},{},{},{},{},{},{})", text, category, paid, start, end, onlyAvailable, sort, from, size, request);
         sort = (sort != null && sort.equals("EVENT_DATE")) ? "eventDate" : "id";
-        List<Event> list = eventRepository.findAllEvents(text, categories, paid, start, end,
+        List<Event> list = eventRepository.findAllEvents(text, category, paid, start, end,
                 onlyAvailable, sort, createPageRequestDesc(sort, from, size));
         Map<Long, Long> confirmedRequest = statsService.toConfirmedRequest(list);
         Map<Long, Long> view = statsService.toView(list);
@@ -55,7 +55,7 @@ public class EventPublicServiceImpl implements EventPublicService {
             log.error("События с id = {} не существует", id);
             return new NotFoundException("События не существует");
         });
-        if (!event.getEventStatus().equals(EventStatus.PUBLISHED)) {
+        if (!event.getState().equals(EventStatus.PUBLISHED)) {
             log.error("События с id = {} не опубликовано", id);
             throw new NotFoundException("Событие не опубликовано");
         }

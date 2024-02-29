@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.categories.model.Categories;
+import ru.practicum.category.model.Category;
 import ru.practicum.event.location.model.Location;
 import ru.practicum.event.status.EventStatus;
 import ru.practicum.users.model.User;
@@ -39,7 +39,7 @@ public class Event {
     private String annotation;
     @ManyToOne
     @JoinColumn(name = "categories_id")
-    private Categories categories;
+    private Category category;
     @Column(name = "created_on")
     private LocalDateTime createdOn;
     @Column(name = "description")
@@ -61,22 +61,22 @@ public class Event {
     private Boolean requestModeration;
     @Column(name = "state_event")
     @Enumerated(EnumType.STRING)
-    private EventStatus eventStatus;
+    private EventStatus state;
     @Column(name = "title")
     private String title;
     @Column(name = "published_on")
     private LocalDateTime publishedOn;
     @Transient
-    private long view;
+    private Long view;
     @Transient
-    private long confirmedRequests;
+    private Long confirmedRequests;
 
     @Override
     public String toString() {
         return "Event{" +
                 "id=" + id +
                 ", annotation='" + annotation + '\'' +
-                ", categories=" + categories +
+                ", category=" + category +
                 ", createdOn=" + createdOn +
                 ", description='" + description + '\'' +
                 ", eventDate=" + eventDate +
@@ -85,7 +85,7 @@ public class Event {
                 ", paid=" + paid +
                 ", participantLimit=" + participantLimit +
                 ", requestModeration=" + requestModeration +
-                ", eventStatus=" + eventStatus +
+                ", state=" + state +
                 ", title='" + title + '\'' +
                 ", publishedOn=" + publishedOn +
                 ", view=" + view +

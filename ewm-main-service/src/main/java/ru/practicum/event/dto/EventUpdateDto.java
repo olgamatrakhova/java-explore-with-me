@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class EventUpdateDto {
     @Size(min = 20, max = 2000)
     private String annotation;
-    private Long categories;
+    private Long category;
     @Size(min = 20, max = 7000)
     private String description;
     @Future

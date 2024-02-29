@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.categories.model.Categories;
+import ru.practicum.category.model.Category;
 import ru.practicum.users.model.User;
 
 import java.time.LocalDateTime;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class EventDto {
     private Long id;
     private String annotation;
-    private Categories categories;
+    private Category category;
     private Long confirmedRequests;
     private LocalDateTime eventDate;
     private User initiator;

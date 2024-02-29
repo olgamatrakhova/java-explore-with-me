@@ -41,7 +41,7 @@ public class Request {
     private User requester;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private RequestStatus requestStatus;
+    private RequestStatus status;
 
     @Override
     public String toString() {
@@ -50,7 +50,7 @@ public class Request {
                 ", created=" + created +
                 ", event=" + event +
                 ", requester=" + requester +
-                ", requestStatus=" + requestStatus +
+                ", status=" + status +
                 '}';
     }
 }

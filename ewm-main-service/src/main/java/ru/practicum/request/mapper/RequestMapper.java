@@ -18,7 +18,7 @@ public class RequestMapper {
                 .id(request.getId())
                 .created(request.getCreated())
                 .event(request.getEvent().getId())
-                .requestStatus(request.getRequestStatus())
+                .status(request.getStatus())
                 .build();
     }
 
@@ -29,7 +29,7 @@ public class RequestMapper {
     public RequestShortDto toRequestShort(RequestShortDto requestShortDto) {
         return RequestShortDto.builder()
                 .requestIds(requestShortDto.getRequestIds())
-                .requestStatus(requestShortDto.getRequestStatus())
+                .status(requestShortDto.getStatus())
                 .build();
     }
 

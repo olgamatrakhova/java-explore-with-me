@@ -17,5 +17,5 @@ public class RequestDto {
     private Long event;
     private Long id;
     private Long requester;
-    private RequestStatus requestStatus;
+    private RequestStatus status;
 }

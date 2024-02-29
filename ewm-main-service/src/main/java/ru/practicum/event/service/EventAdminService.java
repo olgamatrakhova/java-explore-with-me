@@ -10,6 +10,6 @@ import java.util.List;
 public interface EventAdminService {
     EventFullDto updateEventAdmin(Long eventId, EventRequestAdminDto eventRequestAdminDto);
 
-    List<EventFullDto> getEventsAdmin(List<Long> users, List<EventStatus> eventStatusList, List<Long> categories,
+    List<EventFullDto> getEventsAdmin(List<Long> users, List<EventStatus> eventStatusList, List<Long> category,
                                       LocalDateTime start, LocalDateTime end, int from, int size);
 }

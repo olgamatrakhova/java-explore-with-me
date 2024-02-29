@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.categories.dto.CategoriesDto;
+import ru.practicum.category.dto.CategoryDto;
 import ru.practicum.event.location.dto.LocationDto;
 import ru.practicum.event.status.EventStatus;
 import ru.practicum.users.dto.UserDto;
@@ -16,7 +16,7 @@ import ru.practicum.users.dto.UserDto;
 public class EventFullDto {
     private Long id;
     private String annotation;
-    private CategoriesDto categories;
+    private CategoryDto category;
     private String createdOn;
     private String description;
     private String eventDate;
@@ -25,7 +25,7 @@ public class EventFullDto {
     private Boolean paid;
     private Integer participantLimit;
     private Boolean requestModeration;
-    private EventStatus eventStatus;
+    private EventStatus state;
     private String title;
     private Long views;
     private Long confirmedRequests;
