@@ -13,11 +13,7 @@ import java.util.Optional;
 public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findAllEventsByInitiatorId(long userId, Pageable pageable);
 
-    @Query("SELECT e " +
-            "FROM Event e " +
-            "WHERE (e.id IN ?1 OR ?1 IS null) " +
-            "AND (e.initiator.id IN ?2 OR ?2 IS null) ")
-    Optional<Event> findAllEventsByIdAndInitiatorId(long eventId, long userId);
+    Optional<Event> findAllEventsById(long eventId);
 
     @Query("SELECT e " +
             "FROM Event e " +

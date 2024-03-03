@@ -44,7 +44,11 @@ public class RequestServiceImpl implements RequestService {
     public RequestDto addRequest(Long userId, Long eventId) {
         log.info("Вызов добавление запроса пользователя addRequest({},{})", userId, eventId);
         RequestStatus requestStatus;
-        Event event = eventRepository.findAllEventsByIdAndInitiatorId(eventId, userId).orElseThrow(() -> {
+        User user = userRepository.findById(userId).orElseThrow(() -> {
+            log.error("Пользователя с id = {} не существует", userId);
+            return new NotFoundException("Пользователя с id = " + userId + " не существует");
+        });
+        Event event = eventRepository.findAllEventsById(eventId).orElseThrow(() -> {
             log.error("Событие c id = {} не найдено", eventId);
             throw new NotFoundException("Событие c id =" + eventId + " не найдено");
         });
@@ -66,10 +70,7 @@ public class RequestServiceImpl implements RequestService {
             log.error("Список участников заполнен");
             throw new ConflictException("Список участников переполнен");
         }
-        User user = userRepository.findById(userId).orElseThrow(() -> {
-            log.error("Пользователя с id = {} не существует", userId);
-            return new NotFoundException("Пользователя с id = " + userId + " не существует");
-        });
+
         Request request = requestRepository.save(Request.builder()
                 .requester(user)
                 .event(event)
