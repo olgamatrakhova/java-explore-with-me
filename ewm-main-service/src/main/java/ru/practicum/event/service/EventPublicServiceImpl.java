@@ -11,6 +11,7 @@ import ru.practicum.event.mapper.EventMapper;
 import ru.practicum.event.model.Event;
 import ru.practicum.event.repository.EventRepository;
 import ru.practicum.event.status.EventStatus;
+import ru.practicum.exception.BadRequestException;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.stat.service.StatsService;
 
@@ -36,6 +37,12 @@ public class EventPublicServiceImpl implements EventPublicService {
                                                        Integer size, HttpServletRequest request) {
         log.info("Вызов публичного сервиса получения данных по событию с параметрами из фильтра getEventsByFilterPublic({},{},{},{},{},{},{},{},{},{})", text, category, paid, start, end, onlyAvailable, sort, from, size, request);
         sort = (sort != null && sort.equals("EVENT_DATE")) ? "eventDate" : "id";
+        if (start != null || end != null) {
+            if (end.isBefore(start)) {
+                log.error("Дата и время окончания события не могут быть раньше, чем дата и время начала события");
+                throw new BadRequestException("Дата и время окончания события не могут быть раньше, чем дата и время начала события");
+            }
+        }
         List<Event> list = eventRepository.findAllEvents(text, category, paid, start, end,
                 onlyAvailable, sort, createPageRequestDesc(sort, from, size));
         Map<Long, Long> confirmedRequest = statsService.toConfirmedRequest(list);
@@ -51,7 +58,7 @@ public class EventPublicServiceImpl implements EventPublicService {
     @Override
     public EventFullDto getEventByIdPublic(Long id, HttpServletRequest request) {
         log.info("Вызов публичного сервиса получение информации по событию getEventByIdPublic({},{})", id, request);
-        Event event = eventRepository.findById(id).orElseThrow(() -> {
+        Event event = eventRepository.findAllEventsById(id).orElseThrow(() -> {
             log.error("События с id = {} не существует", id);
             return new NotFoundException("События не существует");
         });

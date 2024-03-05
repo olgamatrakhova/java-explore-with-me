@@ -32,20 +32,18 @@ public class EventPublicController {
 
     @GetMapping
     public ResponseEntity<List<EventShortDto>> getEventsByFilterPublic(@RequestParam(required = false) String text,
-                                                                       @RequestParam(required = false) List<@Positive Long> category,
+                                                                       @RequestParam(required = false) List<@Positive Long> categories,
                                                                        @RequestParam(required = false) Boolean paid,
-                                                                       @RequestParam(required = false)
-                                                                       @DateTimeFormat(pattern = TIME_STRING) LocalDateTime start,
-                                                                       @RequestParam(required = false)
-                                                                       @DateTimeFormat(pattern = TIME_STRING) LocalDateTime end,
-                                                                       @RequestParam(defaultValue = "false") Boolean onlyAvailable,
+                                                                       @RequestParam(required = false) @DateTimeFormat(pattern = TIME_STRING) LocalDateTime rangeStart,
+                                                                       @RequestParam(required = false) @DateTimeFormat(pattern = TIME_STRING) LocalDateTime rangeEnd,
                                                                        @RequestParam(required = false) String sort,
+                                                                       @RequestParam(defaultValue = "false") Boolean onlyAvailable,
                                                                        @RequestParam(defaultValue = "0") @PositiveOrZero int from,
                                                                        @RequestParam(defaultValue = "10") @Positive int size,
                                                                        HttpServletRequest request) {
-        log.info("PATCH request to users/{userId}/events/{eventId}/requests");
-        return ResponseEntity.ok(service.getEventsByFilterPublic(text, category, paid,
-                start, end, onlyAvailable, sort, from, size, request));
+        log.info("GET request to /events");
+        return ResponseEntity.ok(service.getEventsByFilterPublic(text, categories, paid,
+                rangeStart, rangeEnd, onlyAvailable, sort, from, size, request));
     }
 
     @GetMapping("/{id}")

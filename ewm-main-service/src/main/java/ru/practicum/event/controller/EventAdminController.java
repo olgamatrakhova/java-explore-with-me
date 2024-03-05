@@ -41,14 +41,12 @@ public class EventAdminController {
     @GetMapping
     public ResponseEntity<List<EventFullDto>> getEventsAdmin(@RequestParam(required = false) List<Long> users,
                                                              @RequestParam(required = false) List<EventStatus> eventStatusList,
-                                                             @RequestParam(required = false) List<Long> category,
-                                                             @RequestParam(required = false)
-                                                             @DateTimeFormat(pattern = TIME_STRING) LocalDateTime start,
-                                                             @RequestParam(required = false)
-                                                             @DateTimeFormat(pattern = TIME_STRING) LocalDateTime end,
+                                                             @RequestParam(required = false) List<Long> categories,
+                                                             @RequestParam(required = false) @DateTimeFormat(pattern = TIME_STRING) LocalDateTime start,
+                                                             @RequestParam(required = false) @DateTimeFormat(pattern = TIME_STRING) LocalDateTime end,
                                                              @RequestParam(defaultValue = "0") @PositiveOrZero int from,
                                                              @RequestParam(defaultValue = "10") @Positive int size) {
         log.info("GET request to /admin/events endpoint");
-        return ResponseEntity.ok(eventAdminService.getEventsAdmin(users, eventStatusList, category, start, end, from, size));
+        return ResponseEntity.ok(eventAdminService.getEventsAdmin(users, eventStatusList, categories, start, end, from, size));
     }
 }
