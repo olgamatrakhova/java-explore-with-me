@@ -58,19 +58,15 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     @Override
     public CategoryDto updateCategory(Long catId, CategoryDto categoryDto) {
         log.info("Вызов обновления категории updateCategory({},{})", catId, categoryDto);
-        try {
-            Category category = categoryRepository.findById(catId).orElseThrow(()
-                    -> new NotFoundException("Категории с id = " + catId + " не существует"));
-            if (!category.getName().equals(categoryDto.getName()) &&
-                    categoryRepository.existsByName(categoryDto.getName())) {
-                log.error("Категория с наименование - {} - не уникальна", categoryDto.getName());
-                throw new NotUniqueException("Категория с наименование - " + categoryDto.getName() + " - не уникальна");
-            }
-            category.setName(categoryDto.getName());
-            log.info("Категории {} обновлена", category.getName());
-            return CategoryMapper.toCategoryDto(category);
-        } catch (Exception e) {
-            throw new NotFoundException("Категории с id = " + catId + " не существует");
+        Category category = categoryRepository.findById(catId).orElseThrow(()
+                -> new NotFoundException("Категории с id = " + catId + " не существует"));
+        if (!category.getName().equals(categoryDto.getName()) &&
+                categoryRepository.existsByName(categoryDto.getName())) {
+            log.error("Категория с наименование - {} - не уникальна", categoryDto.getName());
+            throw new NotUniqueException("Категория с наименование - " + categoryDto.getName() + " - не уникальна");
         }
+        category.setName(categoryDto.getName());
+        log.info("Категории {} обновлена", category.getName());
+        return CategoryMapper.toCategoryDto(category);
     }
 }

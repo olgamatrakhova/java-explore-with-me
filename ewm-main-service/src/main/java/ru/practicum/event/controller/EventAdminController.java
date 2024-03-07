@@ -27,7 +27,7 @@ import static ru.practicum.utils.Utils.TIME_STRING;
 @RestController
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/admin/events")
+@RequestMapping(path = "/admin/events")
 @Slf4j
 public class EventAdminController {
     private final EventAdminService eventAdminService;

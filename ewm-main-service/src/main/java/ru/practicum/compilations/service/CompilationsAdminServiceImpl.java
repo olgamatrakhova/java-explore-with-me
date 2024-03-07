@@ -11,6 +11,7 @@ import ru.practicum.compilations.model.Compilations;
 import ru.practicum.compilations.repository.CompilationsRepository;
 import ru.practicum.event.model.Event;
 import ru.practicum.event.repository.EventRepository;
+import ru.practicum.exception.BadRequestException;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.exception.NotUniqueException;
 
@@ -27,7 +28,13 @@ public class CompilationsAdminServiceImpl implements CompilationsAdminService {
 
     @Override
     public CompilationsDto addCompilations(NewCompilationsDto newCompilationsDto) {
-        log.info("Вызов получение подборок событий addCompilations({})", newCompilationsDto);
+        log.info("Вызов добавление подборок событий addCompilations({})", newCompilationsDto);
+        if (newCompilationsDto.getTitle() == null) {
+            throw new BadRequestException("Не заполнен заголовок подборки");
+        }
+        if (newCompilationsDto.getTitle().trim().equals("")) {
+            throw new BadRequestException("Заголовок подборки не может быть пустым");
+        }
         if (compilationsRepository.existsByTitle(newCompilationsDto.getTitle())) {
             throw new NotUniqueException("Подборка с таким названием уже существует");
         }
