@@ -60,14 +60,11 @@ public class StatServiceImpl implements StatsService {
             return Map.of();
         }
         List<String> uris = events.stream().map(a -> "/events/" + a.getId()).collect(Collectors.toList());
-        ResponseEntity<Object> response = statsClient.getStatsEvent(start.format(FORMATTER),
-                LocalDateTime.now().format(FORMATTER), uris, true);
+        ResponseEntity<Object> response = statsClient.getStatsEvent(start.format(FORMATTER), LocalDateTime.now().format(FORMATTER), uris, true);
         try {
             StatsResponseDto[] stats = objectMapper.readValue(objectMapper.writeValueAsString(response.getBody()), StatsResponseDto[].class);
             for (StatsResponseDto stat : stats) {
-                view.put(
-                        Long.parseLong(stat.getUri()),
-                        stat.getHits());
+                view.put(Long.parseLong(stat.getUri().replaceAll("\\D+", "")),stat.getHits());
             }
         } catch (JsonProcessingException e) {
             log.error("Не возможно получить ответ ({})", e.getMessage());
