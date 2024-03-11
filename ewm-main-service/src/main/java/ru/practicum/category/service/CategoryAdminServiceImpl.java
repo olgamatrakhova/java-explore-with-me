@@ -44,9 +44,6 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
         if (eventRepository.existsByCategoryId(catId)) {
             throw new ConflictException("Нельзя удалить событие со связными событиями");
         }
-        if (!categoryRepository.existsById(catId)) {
-            throw new NotFoundException("Категории с id = " + catId + " не существует");
-        }
         try {
             categoryRepository.deleteById(catId);
             log.info("Категории с id = {} удалена", catId);
