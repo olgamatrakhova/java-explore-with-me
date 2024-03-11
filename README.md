@@ -4,3 +4,5 @@
 ##### Дополнительная функциональность - комментирование событий
 ## Схема данных
 ![](ExploreWithMeDiagram.png)
+
+Ссылка на pull request https://github.com/olgamatrakhova/java-explore-with-me/pull/4#issue-2179820570
