@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.comments.service.CommentPrivateService;
 import ru.practicum.event.dto.EventDto;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventShortDto;
@@ -31,6 +32,8 @@ public class EventPublicServiceImpl implements EventPublicService {
     private final EventRepository eventRepository;
     private final StatsService statsService;
 
+    private final CommentPrivateService commentPrivateService;
+
     @Override
     public List<EventShortDto> getEventsByFilterPublic(String text, List<Long> category, Boolean paid, LocalDateTime start,
                                                        LocalDateTime end, Boolean onlyAvailable, String sort, Integer from,
@@ -47,9 +50,10 @@ public class EventPublicServiceImpl implements EventPublicService {
                 onlyAvailable, sort, createPageRequestDesc(sort, from, size));
         Map<Long, Long> confirmedRequest = statsService.toConfirmedRequest(list);
         Map<Long, Long> view = statsService.toView(list);
+        Map<Long, Long> commentCount = commentPrivateService.getCommentCount(list);
         List<EventDto> events = new ArrayList<>();
         list.forEach(event -> events.add(EventMapper.toEventShort(event, view.getOrDefault(event.getId(), 0L),
-                confirmedRequest.getOrDefault(event.getId(), 0L))));
+                confirmedRequest.getOrDefault(event.getId(), 0L), commentCount.getOrDefault(event.getId(), 0L))));
         statsService.addHits(request);
         log.info("Возвращено {} событий", events.size());
         return EventMapper.toListEventShortDto(events);

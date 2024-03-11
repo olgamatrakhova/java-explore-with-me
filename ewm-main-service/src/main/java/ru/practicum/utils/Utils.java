@@ -13,6 +13,10 @@ public class Utils {
         return PageRequest.of(from, size, Sort.Direction.ASC, "id");
     }
 
+    public static PageRequest createPageRequestSortAsc(String sortBy, int from, int size) {
+        return PageRequest.of(from, size, Sort.by(sortBy).ascending());
+    }
+
     public static PageRequest createPageRequestDesc(String sortBy, int from, int size) {
         return PageRequest.of(from > 0 ? from / size : 0, size, Sort.by(sortBy).descending());
     }
