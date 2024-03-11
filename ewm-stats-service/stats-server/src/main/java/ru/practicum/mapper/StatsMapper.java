@@ -1,12 +1,11 @@
 package ru.practicum.mapper;
 
+import lombok.experimental.UtilityClass;
 import ru.practicum.dto.StatsDto;
 import ru.practicum.model.Stats;
 
+@UtilityClass
 public class StatsMapper {
-    private StatsMapper() {
-    }
-
     public static Stats toStats(StatsDto statsDto) {
         return Stats.builder()
                 .ip(statsDto.getIp())
