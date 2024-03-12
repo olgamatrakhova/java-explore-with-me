@@ -38,7 +38,7 @@ public class CommentAdminController {
     @DeleteMapping("comment/{comId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<String> deleteComment(@PathVariable Long comId) {
-        log.info("GET request to admin/comment/{comId} endpoint");
+        log.info("DELETE request to admin/comment/{comId} endpoint");
         commentAdminService.deleteComment(comId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Комментарий " + comId + " удален");
     }

@@ -24,7 +24,7 @@ public class CommentAdminServiceImpl implements CommentAdminService {
     @Override
     public void deleteComment(Long comId) {
         log.info("Вызов удаления комментария deleteComment({})", comId);
-        if (commentRepository.existsById(comId)) {
+        if (!commentRepository.existsById(comId)) {
             log.error("Нет комментария с id = {}", comId);
             throw new NotFoundException("Комментарий не найден");
         }
@@ -43,7 +43,7 @@ public class CommentAdminServiceImpl implements CommentAdminService {
     @Override
     public List<CommentDto> findCommentByUserId(Long userId) {
         log.info("Вызов получение комментариев пользователя findCommentByUserId({})", userId);
-        if (userRepository.existsById(userId)) {
+        if (!userRepository.existsById(userId)) {
             log.error("Пользователь с id = {} не существует", userId);
             throw new NotFoundException("Пользователь не найден");
         }

@@ -8,14 +8,13 @@ import ru.practicum.comments.model.Comment;
 import ru.practicum.event.mapper.EventMapper;
 import ru.practicum.users.mapper.UserMapper;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.practicum.utils.Utils.FORMATTER;
+
 @UtilityClass
 public class CommentMapper {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
     public Comment toComment(CommentCreateDto commentDto) {
         return Comment.builder()
                 .text(commentDto.getText())
@@ -39,7 +38,7 @@ public class CommentMapper {
     public CommentShortDto toCommentShortDto(Comment comment) {
         return CommentShortDto.builder()
                 .author(UserMapper.toUserDto(comment.getAuthor()))
-                .createTime(comment.getText())
+                .createTime(comment.getCreateTime().format(FORMATTER))
                 .id(comment.getId())
                 .text(comment.getText())
                 .build();

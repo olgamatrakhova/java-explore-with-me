@@ -40,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentShortDto> getCommentsByEvent(Long eventId, int from, int size) {
         log.info("Вызов получения всех комментариев события getCommentsByEven({},{},{})", eventId, from, size);
-        if (eventRepository.existsById(eventId)) {
+        if (!eventRepository.existsById(eventId)) {
             log.error("События с id = {} не существует", eventId);
             throw new NotFoundException("События не существует");
         }

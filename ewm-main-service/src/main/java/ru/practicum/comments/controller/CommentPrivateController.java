@@ -21,22 +21,22 @@ import ru.practicum.comments.service.CommentPrivateService;
 @RequiredArgsConstructor
 @Slf4j
 public class CommentPrivateController {
-    private final CommentPrivateService service;
+    private final CommentPrivateService commentPrivateService;
 
     @PostMapping("/users/{userId}/events/{eventId}/comment")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<CommentDto> addComment(@PathVariable Long userId, @PathVariable Long eventId,
                                                  @RequestBody @Validated CommentCreateDto commentCreateDto) {
-        log.info("GET request to /users/{userId}/events/{eventId}/comment endpoint");
+        log.info("POST request to /users/{userId}/events/{eventId}/comment endpoint");
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(service.addComment(userId, eventId, commentCreateDto));
+                .body(commentPrivateService.addComment(userId, eventId, commentCreateDto));
     }
 
     @DeleteMapping("/users/{userId}/comment/{comId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<String> deleteComment(@PathVariable Long userId, @PathVariable Long comId) {
-        log.info("GET request to /users/{userId}/comment/{comId} endpoint");
-        service.deleteComment(userId, comId);
+        log.info("DELETE request to /users/{userId}/comment/{comId} endpoint");
+        commentPrivateService.deleteComment(userId, comId);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .body("Комментарий удален пользователем");
@@ -46,6 +46,6 @@ public class CommentPrivateController {
     public ResponseEntity<CommentDto> updateComment(@PathVariable Long userId, @PathVariable Long comId,
                                                     @RequestBody @Validated CommentCreateDto commentCreateDto) {
         log.info("PATCH request to users/{userId}/comment/{comId} endpoint");
-        return ResponseEntity.ok(service.updateComment(userId, comId, commentCreateDto));
+        return ResponseEntity.ok(commentPrivateService.updateComment(userId, comId, commentCreateDto));
     }
 }
