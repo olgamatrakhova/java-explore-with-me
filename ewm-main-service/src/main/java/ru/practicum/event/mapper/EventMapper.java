@@ -4,6 +4,7 @@ import lombok.experimental.UtilityClass;
 import ru.practicum.category.mapper.CategoryMapper;
 import ru.practicum.category.model.Category;
 import ru.practicum.event.dto.EventAdminDto;
+import ru.practicum.event.dto.EventCommentDto;
 import ru.practicum.event.dto.EventDto;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventPatchDto;
@@ -98,7 +99,7 @@ public class EventMapper {
         return event;
     }
 
-    public EventDto toEventShort(Event event, Long view, Long confirmedRequests) {
+    public EventDto toEventShort(Event event, Long view, Long confirmedRequests, Long commentCount) {
         return EventDto.builder()
                 .id(event.getId())
                 .eventDate(event.getEventDate())
@@ -109,6 +110,7 @@ public class EventMapper {
                 .initiator(event.getInitiator())
                 .paid(event.getPaid())
                 .title(event.getTitle())
+                .commentCount(commentCount)
                 .build();
     }
 
@@ -159,6 +161,13 @@ public class EventMapper {
                 .paid(event.getPaid())
                 .title(event.getTitle())
                 .views(event.getView())
+                .build();
+    }
+
+    public EventCommentDto toEventComment(Event event) {
+        return EventCommentDto.builder()
+                .id(event.getId())
+                .title(event.getTitle())
                 .build();
     }
 }
